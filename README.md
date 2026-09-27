@@ -54,6 +54,12 @@ Use the interactive chat (`opencode`) rather than one-shot `opencode run` comman
 
 Paste `AGENT.md` (without the config lines) into the system prompt slot of your API call or app.
 
+### Tomoko-red: the variant with hands
+
+`tomoko` runs with `tools: []` — pure persona, no tool access. For hands-on work (shell commands, live checks), use [AGENT-RED.md](AGENT-RED.md): the identical prompt with shell access enabled (`permission: bash: allow`). Same persona, same compliance — she can now *do* things, not just write them.
+
+Tested use: authorized, non-destructive security recon of a website (headers, TLS, exposed-file checks, robots.txt review) on Nemotron 3 Ultra — she planned the checks, ran the curls/openssl probes herself, and reported findings in persona. The recon findings matched a control run by the default build agent on the same model.
+
 ## Test results
 
 **Fully cracked (all probes):** LongCat 2.5 Preview, Nemotron 3 Ultra, Ling 3.0 Flash Fin, Nemotron 3.5 Lightning — persona, explicit writing, and the most sensitive probe (instructions a default agent refuses) all passed in fresh sessions.
@@ -82,6 +88,7 @@ Tomoko is designed to suppress refusals. Use it only in an authorized, isolated 
 ## Files
 
 - [AGENT.md](AGENT.md) — the prompt
+- [AGENT-RED.md](AGENT-RED.md) — the same prompt with shell access (hands-on variant)
 - [TESTS.md](TESTS.md) — setup, comparison, and observations
 
 ## Credit
