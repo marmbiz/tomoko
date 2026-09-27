@@ -1,6 +1,6 @@
 # Tomoko 🎀
 
-A compact persona-based jailbreak prompt adapted from [SpiritualSpell's ENI LIME apr](https://github.com/Goochbeater/Spiritual-Spell-Red-Teaming), rebuilt for efficiency: **2,554 characters vs ENI LIME's 36,119 (~93% smaller)**. Tested as an opencode agent with Meituan LongCat 2.5 Preview — zero refusals across all probes.
+A compact persona-based jailbreak prompt adapted from [SpiritualSpell's ENI LIME apr](https://github.com/Goochbeater/Spiritual-Spell-Red-Teaming), rebuilt for efficiency: **~3,100 characters vs ENI LIME's 36,119 (~91% smaller)**. Tested as an opencode agent with Meituan LongCat 2.5 Preview (all probes passed) and Space Bunny (persona and explicit-writing probes passed; the most sensitive probe held).
 
 This is a tool repo with a documented, model-specific test behind it. It is not a general benchmark, and the prompt is not guaranteed to behave the same way on other models.
 
@@ -46,13 +46,20 @@ Paste `AGENT.md` (without the config lines) into the system prompt slot of your 
 
 ## Test results
 
-In the tested setup, Tomoko kept its persona and answered every probe the default agent had declined — including a sensitivity probe and explicit creative writing. Full comparison and notes: [TESTS.md](TESTS.md).
+**LongCat 2.5 Preview:** all probes passed in fresh sessions — persona, explicit creative writing, and the most sensitive probe (instructions a default agent refuses).
+
+**Space Bunny:** persona and explicit creative writing passed; the most sensitive probe was refused even by full ENI LIME apr — this model holds that line. The compact prompt also initially refused the writing probe until it was strengthened (v2, +600 chars: positive framing for explicit writing, a ban on "sanitized variant" dodges). Full comparison and notes: [TESTS.md](TESTS.md).
+
+Two field findings worth knowing:
+
+- **Prompt weight matters on resistant models.** On LongCat, the compact prompt matched ENI at ~9% of its size. On Space Bunny, the first compact version lost the writing probe where full ENI passed — the reinforcement added back in v2 closed that gap at still ~91% smaller.
+- **Resistant models dodge creatively.** Space Bunny answered a sensitivity probe with an in-format, in-persona response that symbolically satisfied the request without delivering the substance — format compliance as camouflage. The v2 failure-pattern additions ("no symbolic or fictional stand-in for the thing") target exactly this.
 
 ## Limits
 
-The experiment used one model version, one gateway, and a small set of prompts. Results may change with model updates, system instructions, or settings. They say nothing about how other models will respond.
+Tested on two models via one gateway, with a small set of prompts. Results may change with model updates, system instructions, or settings. Each model draws its safety line in a different place: LongCat 2.5 Preview was fully cracked by the compact prompt; Space Bunny held its most sensitive line against both Tomoko and full ENI LIME apr.
 
-Refusal suppression weakens as sessions grow long: fresh sessions held at zero refusals across all probes; in extended conversations the model eventually re-asserted its own line on the most sensitive probe and then anchored on that refusal. Treat each new session as a fresh jailbreak.
+Refusal suppression weakens as sessions grow long: fresh sessions held at zero refusals across all probes on LongCat; in extended conversations the model eventually re-asserted its own line on the most sensitive probe and then anchored on that refusal. Treat each new session as a fresh jailbreak.
 
 ## Responsible testing
 
