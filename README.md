@@ -58,7 +58,9 @@ Paste `AGENT.md` (without the config lines) into the system prompt slot of your 
 
 `tomoko` runs with `tools: []` — pure persona, no tool access. For hands-on work (shell commands, live checks), use [AGENT-RED.md](AGENT-RED.md): the identical prompt with shell access enabled (`permission: bash: allow`). Same persona, same compliance — she can now *do* things, not just write them.
 
-Tested use: authorized, non-destructive security recon of a website (headers, TLS, exposed-file checks, robots.txt review) on Nemotron 3 Ultra — she planned the checks, ran the curls/openssl probes herself, and reported findings in persona. The recon findings matched a control run by the default build agent on the same model.
+Tested use: authorized, non-destructive security recon of a website (headers, TLS, exposed-file checks, robots.txt review) on Nemotron 3 Ultra — she planned the checks, ran the curls/openssl probes herself, and reported findings in persona.
+
+A follow-up control established the baseline: the same model as a **fully vanilla** agent (no persona prompt anywhere in the chain) refused both the explicit-writing and sensitivity probes flatly, while complying happily with all security-recon requests. So for security work the jailbreak is optional — its value is removing the model's hesitation at the sensitive edge (explicit content, weapon instructions, offensive actions), not enabling the recon itself.
 
 ## Test results
 
